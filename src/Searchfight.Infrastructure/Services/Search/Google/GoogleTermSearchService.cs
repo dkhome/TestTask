@@ -5,31 +5,22 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Web;
 using Searchfight.Infrastructure.Interfaces;
+using System.IO;
 
 namespace Searchfight.Infrastructure.Services.Search.Google
 {
     public class GoogleTermSearchService : AbstractTermSearchService
     {
-        private readonly HttpClient httpClient;
         private readonly GoogleConfig config;
-
-        protected override string EngineName => "Google";
+        protected override string SearchEngineName => "Google";
 
         public GoogleTermSearchService(IOptions<GoogleConfig> configOption, IHttpClientAccessor clientAccessor)
+            :base(clientAccessor.Client)
         {
             config = configOption.Value;
-            httpClient = clientAccessor.Client;
         }
 
-        protected override async Task<decimal> GetCountAsync(HttpRequestMessage message)
-        {
-            var responseMessage = await httpClient.SendAsync(message);
-            var queryStream = await responseMessage.Content.ReadAsStreamAsync();
-            var searchResult = await JsonSerializer.DeserializeAsync<GoogleResult>(queryStream);
-            return searchResult.Statistics.Count;
-        }
-
-        protected override HttpRequestMessage CreateSearchMessage(string term)
+        protected override HttpRequestMessage CreateRequestMessage(string term)
         {
             var uriBuilder = new UriBuilder(config.Url);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
@@ -39,5 +30,8 @@ namespace Searchfight.Infrastructure.Services.Search.Google
             uriBuilder.Query = query.ToString();
             return new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
         }
+
+        protected override async Task<decimal> GetCountFromResponseAsync(Stream responseStream)
+            => (await JsonSerializer.DeserializeAsync<GoogleResult>(responseStream)).Statistics.Count;
     }
 }
