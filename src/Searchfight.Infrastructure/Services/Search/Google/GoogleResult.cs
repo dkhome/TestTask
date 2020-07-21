@@ -9,7 +9,7 @@ namespace Searchfight.Infrastructure.Services.Search.Google
         {
             [JsonPropertyName("totalResults")]
             [JsonConverter(typeof(StringToDecimalConverter))]
-            public decimal TotalResults { get; set; }
+            public decimal Count { get; set; }
         }
 
         [JsonPropertyName("searchInformation")]

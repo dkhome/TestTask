@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Searchfight.Core;
-using Searchfight.Domain.Interfaces;
 using Searchfight.Infrastructure.Interfaces;
 using System.Net.Http;
 using System.Text.Json;
@@ -8,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Searchfight.Infrastructure.Services.Search.Bing
 {
-    public class BingTermSearchService : ITermSearchService
+    public class BingTermSearchService : AbstractTermSearchService
     {
-        private const string Name = "Bing";
-        private const string SearchEngineBase = "https://api.cognitive.microsoft.com/bing/v7.0/search";
         private const string HeaderKey = "Ocp-Apim-Subscription-Key";
 
         private readonly HttpClient httpClient;
         private readonly BingConfig config;
+
+        protected override string EngineName => "Bing";
 
         public BingTermSearchService(IOptions<BingConfig> configOption, IHttpClientAccessor clientAccessor)
         {
@@ -23,30 +21,19 @@ namespace Searchfight.Infrastructure.Services.Search.Bing
             config = configOption.Value;
         }
 
-        public async Task<SearchResult> GetResultsCountAsync(string term)
+        protected override async Task<decimal> GetCountAsync(HttpRequestMessage requestMessage)
         {
-            var responseMessage = await httpClient.SendAsync(CreateSearchMessage(term));
+            var responseMessage = await httpClient.SendAsync(requestMessage);
             var searchResult = await JsonSerializer.DeserializeAsync<BingResult>(
                 await responseMessage.Content.ReadAsStreamAsync());
-            
-            return new SearchResult 
-            { 
-                Count = searchResult.Statistics.Count, 
-                Source = Name, 
-                Term = term 
-            };
+            return searchResult.Statistics.Count;
         }
 
-        private HttpRequestMessage CreateSearchMessage(string term)
+        protected override HttpRequestMessage CreateSearchMessage(string term)
         {
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, CreateTermSearchUri(term));
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, $"{config.Url}?q={term}");
             message.Headers.Add(HeaderKey, config.Key);
             return message;
-        }
-
-        private string CreateTermSearchUri(string term)
-        {
-            return $"{SearchEngineBase}?q={term}";
         }
     }
 }

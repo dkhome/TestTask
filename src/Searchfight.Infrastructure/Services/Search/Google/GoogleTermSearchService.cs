@@ -5,52 +5,39 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Web;
 using Searchfight.Infrastructure.Interfaces;
-using Searchfight.Core;
-using Searchfight.Domain.Interfaces;
 
 namespace Searchfight.Infrastructure.Services.Search.Google
 {
-    public class GoogleTermSearchService : ITermSearchService
+    public class GoogleTermSearchService : AbstractTermSearchService
     {
-        private const string searchEngineName = "Google";
-        private const string searchEngineBase = "https://customsearch.googleapis.com/customsearch/v1";
-
-        private readonly Uri searchRequestBase;
         private readonly HttpClient httpClient;
+        private readonly GoogleConfig config;
 
-        public GoogleTermSearchService(IOptions<GoogleConfig> config, IHttpClientAccessor clientAccessor)
+        protected override string EngineName => "Google";
+
+        public GoogleTermSearchService(IOptions<GoogleConfig> configOption, IHttpClientAccessor clientAccessor)
         {
-            searchRequestBase = CreateSearchRequestBase(config.Value);
+            config = configOption.Value;
             httpClient = clientAccessor.Client;
         }
 
-        public async Task<SearchResult> GetResultsCountAsync(string term)
+        protected override async Task<decimal> GetCountAsync(HttpRequestMessage message)
         {
-            var resultCounts = await GetCountAsync(term);
-            return new SearchResult { Count = resultCounts, Source = searchEngineName, Term = term };
-        }
-
-        private Uri CreateSearchRequestBase(GoogleConfig settings)
-        {
-            var uriBuilder = new UriBuilder(searchEngineBase);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["key"] = settings.ApiKey;
-            query["cx"] = settings.EngineId;
-            uriBuilder.Query = query.ToString();
-            return uriBuilder.Uri;
-        }
-
-        private async Task<decimal> GetCountAsync(string t)
-        {
-            string requestUri = CreateTermSearchUri(t);
-            var queryStream = await httpClient.GetStreamAsync(requestUri);
+            var responseMessage = await httpClient.SendAsync(message);
+            var queryStream = await responseMessage.Content.ReadAsStreamAsync();
             var searchResult = await JsonSerializer.DeserializeAsync<GoogleResult>(queryStream);
-            return searchResult.Statistics.TotalResults;
+            return searchResult.Statistics.Count;
         }
 
-        private string CreateTermSearchUri(string term)
+        protected override HttpRequestMessage CreateSearchMessage(string term)
         {
-            return $"{searchRequestBase}&q={term}";
+            var uriBuilder = new UriBuilder(config.Url);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["key"] = config.ApiKey;
+            query["cx"] = config.EngineId;
+            query["q"] = term;
+            uriBuilder.Query = query.ToString();
+            return new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
         }
     }
 }

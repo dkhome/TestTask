@@ -34,14 +34,12 @@ namespace Searchfight
 
             return services.AddSingleton<ApplicationController>()
                 .AddSingleton<IHttpClientAccessor, DefaultHttpClientAccessor>()
-
-                //TODO: I don't think we need all singletones here
                 .AddSingleton<IInputValidator, InputValidator>()
-                .AddSingleton<ITermSearchService, GoogleTermSearchService>()
-                .AddSingleton<ITermSearchService, BingTermSearchService>()
-                .AddSingleton<ISearchStatisticsService, SearchStatisticsService>()
-                .AddSingleton<IStatisticsService, StatisticsService>()
-                .AddSingleton<ISearchStatisticsPresenter, SearchStatisticsConsolePresenter>();
+                .AddTransient<ITermSearchService, GoogleTermSearchService>()
+                .AddTransient<ITermSearchService, BingTermSearchService>()
+                .AddTransient<ISearchStatisticsService, SearchStatisticsService>()
+                .AddTransient<IStatisticsService, StatisticsService>()
+                .AddTransient<ISearchStatisticsPresenter, SearchStatisticsConsolePresenter>();
         }
 
         private static void SetUpConfiguration(IServiceCollection services)

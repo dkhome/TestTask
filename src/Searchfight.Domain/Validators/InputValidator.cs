@@ -15,8 +15,6 @@ namespace Searchfight.Domain.Validators
             {
                 throw new Exception("No parameters specified. Please provide at least one search term.");
             }
-
-            //TODO: Is 1 parameter valid? check when implementing results formatting
         }
     }
 }

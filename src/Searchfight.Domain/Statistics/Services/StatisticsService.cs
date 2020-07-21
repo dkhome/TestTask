@@ -14,15 +14,15 @@ namespace Searchfight.Domain.Statistics.Services
                 return new string[0];
 
             return results.GroupBy(s => s.Term)
-                .Select(termGrouping => 
+                .Select(termGrouping => //calculate sum per term
                     new 
                     { 
                         Term = termGrouping.Key, 
                         Sum = termGrouping.Sum(tg => tg.Count) 
                     })
-                .GroupBy(s => s.Sum)
-                .OrderByDescending(grouped => grouped.Key)
-                .First().Select(tw => tw.Term);
+                .GroupBy(s => s.Sum) //group by sum, there can be several terms with the same sum
+                .OrderByDescending(grouped => grouped.Key) //order by key = Sum
+                .First().Select(tw => tw.Term); //Take first group, select terms
         }
 
         public IEnumerable<IGrouping<string, SearchResult>> GetResultsGroupedByTerm(IEnumerable<SearchResult> results) 
@@ -38,9 +38,9 @@ namespace Searchfight.Domain.Statistics.Services
                 new Tuple<string, IEnumerable<string>>(
                     sourceGrouping.Key,
                     sourceGrouping
-                        .GroupBy(t => t.Count)
-                        .OrderByDescending(t => t.Key)
-                        .First()
+                        .GroupBy(t => t.Count) //group by count because there could be several terms with the same results count
+                        .OrderByDescending(t => t.Key) 
+                        .First() //get top group ordered by Key = count
                         .Select(t => t.Term)
                     ));
         }
