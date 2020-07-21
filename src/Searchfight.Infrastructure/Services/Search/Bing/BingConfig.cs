@@ -2,5 +2,6 @@
 {
     public class BingConfig
     {
+        public string Key { get; set; }
     }
 }

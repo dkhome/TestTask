@@ -6,6 +6,6 @@ namespace Searchfight.Domain.Interfaces
 {
     public interface ISearchStatisticsService
     {
-        IEnumerable<Task<SearchResult>> CollectStatistics(IEnumerable<string> terms);
+        Task<IEnumerable<SearchResult>> CollectStatistics(IEnumerable<string> terms);
     }
 }

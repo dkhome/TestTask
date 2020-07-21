@@ -25,7 +25,8 @@ namespace Searchfight.Domain.Statistics.Services
                 .First().Select(tw => tw.Term);
         }
 
-        public IEnumerable<IGrouping<string, SearchResult>> GetResultsGroupedByTerm(IEnumerable<SearchResult> results) => results.GroupBy(r => r.Term);
+        public IEnumerable<IGrouping<string, SearchResult>> GetResultsGroupedByTerm(IEnumerable<SearchResult> results) 
+            => results.GroupBy(r => r.Term);
 
         public IEnumerable<Tuple<string, IEnumerable<string>>> GetWinnersByEngine(IEnumerable<SearchResult> results)
         {

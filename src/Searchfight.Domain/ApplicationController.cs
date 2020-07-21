@@ -27,7 +27,7 @@ namespace Searchfight.Domain
                 inputValidator.Validate(args);
 
                 //run searches
-                var result = await Task.WhenAll(searchStatisticsService.CollectStatistics(args)); //Get rid of Task.WhenAll, it is more infrastructure
+                var result = await searchStatisticsService.CollectStatistics(args); 
 
                 //format output
                 searchStatisticsPresenter.ShowData(result);

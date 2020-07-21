@@ -12,7 +12,7 @@ namespace Searchfight.UI.Extensions
         {
             var sb = new StringBuilder();
             sb.AppendJoin(Environment.NewLine,
-                results.Select(termGrouping => $"{termGrouping.Key}: {string.Join(" ", termGrouping.Select(FormatSourceAndCount))}"));
+                results.Select(termGrouping => $"{termGrouping.Key}: {string.Join(" ", termGrouping.Select(sr => $"{sr.Source}: {sr.Count}"))}"));
             return sb.ToString();
         }
 
@@ -41,11 +41,6 @@ namespace Searchfight.UI.Extensions
             {
                 return ($"Total winner: {totalWinners.First()}");
             }
-        }
-
-        private static string FormatSourceAndCount(SearchResult sr)
-        {
-            return $"{sr.Source}: {sr.Count}";
         }
     }
 }

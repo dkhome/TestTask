@@ -4,7 +4,6 @@ using System.Text.Json;
 using Microsoft.Extensions.Options;
 using System;
 using System.Web;
-using Searchfight.Infrastructure.Services.Search.Google.Data;
 using Searchfight.Infrastructure.Interfaces;
 using Searchfight.Core;
 using Searchfight.Domain.Interfaces;
@@ -41,7 +40,7 @@ namespace Searchfight.Infrastructure.Services.Search.Google
             return uriBuilder.Uri;
         }
 
-        private async Task<ulong> GetCountAsync(string t)
+        private async Task<decimal> GetCountAsync(string t)
         {
             string requestUri = CreateTermSearchUri(t);
             var queryStream = await httpClient.GetStreamAsync(requestUri);

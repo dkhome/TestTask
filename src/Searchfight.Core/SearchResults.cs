@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Searchfight.Core
+﻿namespace Searchfight.Core
 {
     public class SearchResult
     {

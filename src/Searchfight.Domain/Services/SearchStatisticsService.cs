@@ -15,9 +15,10 @@ namespace Searchfight.Domain.Services
             termSearchers = searchers;
         }
 
-        public IEnumerable<Task<SearchResult>> CollectStatistics(IEnumerable<string> terms)
+        public async Task<IEnumerable<SearchResult>> CollectStatistics(IEnumerable<string> terms)
         {
-            return terms.SelectMany(t => termSearchers.Select(s => s.GetResultsCountAsync(t)));
+            return await Task.WhenAll(
+                terms.SelectMany(t => termSearchers.Select(s => s.GetResultsCountAsync(t))));
         }
     }
 }

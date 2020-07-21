@@ -28,15 +28,11 @@ namespace Searchfight
 
         private static IServiceCollection ConfigureServices()
         {
-            //TODO: check is var needed
-            var configuration = GetConfiguration();
+            var services = new ServiceCollection();
+            
+            SetUpConfiguration(services);
 
-            return new ServiceCollection()
-                .AddOptions()
-
-                .Configure<GoogleConfig>(configuration.GetSection(nameof(GoogleConfig)))
-
-                .AddSingleton<ApplicationController>()
+            return services.AddSingleton<ApplicationController>()
                 .AddSingleton<IHttpClientAccessor, DefaultHttpClientAccessor>()
 
                 //TODO: I don't think we need all singletones here
@@ -46,6 +42,16 @@ namespace Searchfight
                 .AddSingleton<ISearchStatisticsService, SearchStatisticsService>()
                 .AddSingleton<IStatisticsService, StatisticsService>()
                 .AddSingleton<ISearchStatisticsPresenter, SearchStatisticsConsolePresenter>();
+        }
+
+        private static void SetUpConfiguration(IServiceCollection services)
+        {
+            var configuration = GetConfiguration();
+
+            services
+                .AddOptions()
+                .Configure<GoogleConfig>(configuration.GetSection(nameof(GoogleConfig)))
+                .Configure<BingConfig>(configuration.GetSection(nameof(BingConfig)));
         }
 
         private static IConfigurationRoot GetConfiguration()
