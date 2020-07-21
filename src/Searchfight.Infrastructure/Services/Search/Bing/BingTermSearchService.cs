@@ -10,6 +10,7 @@ namespace Searchfight.Infrastructure.Services.Search.Bing
     public class BingTermSearchService : AbstractTermSearchService
     {
         private const string HeaderKey = "Ocp-Apim-Subscription-Key";
+        private const string QueryKey = "q";
 
         private readonly BingConfig config;
 
@@ -23,7 +24,9 @@ namespace Searchfight.Infrastructure.Services.Search.Bing
 
         protected override HttpRequestMessage CreateRequestMessage(string term)
         {
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, $"{config.Url}?q={term}");
+            HttpRequestMessage message = new HttpRequestMessage(
+                HttpMethod.Get, 
+                $"{config.Url}?{QueryKey}={term}");
             message.Headers.Add(HeaderKey, config.Key);
             return message;
         }

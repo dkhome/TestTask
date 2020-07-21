@@ -23,7 +23,8 @@ namespace Searchfight.Infrastructure.Services.Search
             
             if (!responseMessage.IsSuccessStatusCode)
             {
-                var message = ErrorMessageHelper.CreateResponseStatusErrorMessage(SearchEngineName, term, responseMessage.StatusCode);
+                var message = ErrorMessageHelper
+                    .CreateResponseStatusErrorMessage(SearchEngineName, term, responseMessage.StatusCode);
                 throw new System.Exception(message);
             }
 

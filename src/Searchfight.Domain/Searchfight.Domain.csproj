@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Searchfight.Core\Searchfight.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

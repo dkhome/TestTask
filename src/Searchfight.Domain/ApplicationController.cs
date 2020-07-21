@@ -35,7 +35,6 @@ namespace Searchfight.Domain
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //TODO: add logging
             }
         }
     }

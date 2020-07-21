@@ -11,6 +11,10 @@ namespace Searchfight.Infrastructure.Services.Search.Google
 {
     public class GoogleTermSearchService : AbstractTermSearchService
     {
+        private const string ApiKey = "key";
+        private const string EngineIdKey = "cx";
+        private const string QueryKey = "q";
+
         private readonly GoogleConfig config;
         protected override string SearchEngineName => "Google";
 
@@ -24,9 +28,9 @@ namespace Searchfight.Infrastructure.Services.Search.Google
         {
             var uriBuilder = new UriBuilder(config.Url);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["key"] = config.ApiKey;
-            query["cx"] = config.EngineId;
-            query["q"] = term;
+            query[ApiKey] = config.ApiKey;
+            query[EngineIdKey] = config.EngineId;
+            query[QueryKey] = term;
             uriBuilder.Query = query.ToString();
             return new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
         }

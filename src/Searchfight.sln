@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Searchfight.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Searchfight.Core", "Searchfight.Core\Searchfight.Core.csproj", "{2DDD1456-8CB1-4427-8771-0105FBA1BA00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Searchfight.Domain", "Searchfight.Domain\Searchfight.Domain.csproj", "{DD58F2B1-487D-4D46-B7BB-212BCBA3EA32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Searchfight.Domain", "Searchfight.Domain\Searchfight.Domain.csproj", "{DD58F2B1-487D-4D46-B7BB-212BCBA3EA32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A07EDA94-8410-4538-AE25-A68F24610443}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Searchfight.Domain.Tests", "Searchfight.Domain.Tests\Searchfight.Domain.Tests.csproj", "{C4438073-665C-440C-B509-7D2520E4DA42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Searchfight.Domain.Tests", "Searchfight.Domain.Tests\Searchfight.Domain.Tests.csproj", "{C4438073-665C-440C-B509-7D2520E4DA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Searchfight.UI", "Searchfight.UI\Searchfight.UI.csproj", "{44AF3CCD-9A16-419B-ADF6-E341888E1311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Searchfight.UI", "Searchfight.UI\Searchfight.UI.csproj", "{44AF3CCD-9A16-419B-ADF6-E341888E1311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Searchfight.UI.Tests", "Searchfight.UI.Tests\Searchfight.UI.Tests.csproj", "{6E0F2F33-0426-4DBD-A57D-46C6FADC9AC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,12 +49,17 @@ Global
 		{44AF3CCD-9A16-419B-ADF6-E341888E1311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44AF3CCD-9A16-419B-ADF6-E341888E1311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44AF3CCD-9A16-419B-ADF6-E341888E1311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E0F2F33-0426-4DBD-A57D-46C6FADC9AC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E0F2F33-0426-4DBD-A57D-46C6FADC9AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E0F2F33-0426-4DBD-A57D-46C6FADC9AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E0F2F33-0426-4DBD-A57D-46C6FADC9AC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C4438073-665C-440C-B509-7D2520E4DA42} = {A07EDA94-8410-4538-AE25-A68F24610443}
+		{6E0F2F33-0426-4DBD-A57D-46C6FADC9AC4} = {A07EDA94-8410-4538-AE25-A68F24610443}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E657394F-0E8C-41C1-88F3-2406482FD430}

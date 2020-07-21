@@ -33,6 +33,7 @@ namespace Searchfight.Infrastructure.Services.Search
             {
                 if (aggregateTask.IsFaulted) 
                 {
+                    //log failed tasks exceptions
                     foreach (var ex in aggregateTask.Exception.InnerExceptions)
                     {
                         logger.LogError(ex.Message);
@@ -40,6 +41,7 @@ namespace Searchfight.Infrastructure.Services.Search
                 }
             }
 
+            //continue working with received data
             return searchTasks
                 .Where(t => t.Status == TaskStatus.RanToCompletion)
                 .Select(t => t.Result)
