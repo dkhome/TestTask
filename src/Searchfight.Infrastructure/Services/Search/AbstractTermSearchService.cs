@@ -1,5 +1,6 @@
 ﻿using Searchfight.Core;
 using Searchfight.Domain.Interfaces;
+using Searchfight.Infrastructure.Services.Search.Utils;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -19,6 +20,13 @@ namespace Searchfight.Infrastructure.Services.Search
         {
             var requestMessage = CreateRequestMessage(term);
             var responseMessage = await httpClient.SendAsync(requestMessage);
+            
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                var message = ErrorMessageHelper.CreateResponseStatusErrorMessage(SearchEngineName, term, responseMessage.StatusCode);
+                throw new System.Exception(message);
+            }
+
             var responseStream = await responseMessage.Content.ReadAsStreamAsync();
             var count = await GetCountFromResponseAsync(responseStream);
 

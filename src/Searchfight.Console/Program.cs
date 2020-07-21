@@ -7,12 +7,13 @@ using Searchfight.Infrastructure.Services;
 using Searchfight.Infrastructure.Services.Search.Google;
 using Searchfight.Infrastructure.Services.Search.Bing;
 using Searchfight.Domain.Interfaces;
-using Searchfight.Domain.Services;
 using Searchfight.Domain.Validators;
 using Searchfight.Domain.Statistics.Interfaces;
 using Searchfight.Domain.Statistics.Services;
 using Searchfight.Domain;
 using Searchfight.UI;
+using Microsoft.Extensions.Logging;
+using Searchfight.Infrastructure.Services.Search;
 
 namespace Searchfight
 {
@@ -32,7 +33,9 @@ namespace Searchfight
             
             SetUpConfiguration(services);
 
-            return services.AddSingleton<ApplicationController>()
+            return 
+                services.AddLogging(builder => builder.AddConsole())
+                .AddSingleton<ApplicationController>()
                 .AddSingleton<IHttpClientAccessor, DefaultHttpClientAccessor>()
                 .AddSingleton<IInputValidator, InputValidator>()
                 .AddTransient<ITermSearchService, GoogleTermSearchService>()

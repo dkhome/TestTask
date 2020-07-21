@@ -40,8 +40,7 @@ namespace Searchfight.Domain.Statistics.Services
                     sourceGrouping
                         .GroupBy(t => t.Count) //group by count because there could be several terms with the same results count
                         .OrderByDescending(t => t.Key) 
-                        .First() //get top group ordered by Key = count
-                        .Select(t => t.Term)
+                        .First().Select(t => t.Term) //Take top group ordered by Key = count
                     ));
         }
     }
