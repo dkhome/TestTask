@@ -2,9 +2,9 @@
 
 namespace Searchfight.Infrastructure.Services.Search.Bing
 {
-    internal class BingResult
+    public class BingResult
     {
-        internal class WebPageStatistics
+        public class WebPageStatistics
         {
             [JsonPropertyName("totalEstimatedMatches")]
             public decimal Count { get; set; }

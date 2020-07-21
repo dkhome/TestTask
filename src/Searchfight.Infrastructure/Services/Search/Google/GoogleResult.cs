@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Searchfight.Infrastructure.Services.Search.Google
 {
-    internal class GoogleResult
+    public class GoogleResult
     {
-        internal class SearchStatistics
+        public class SearchStatistics
         {
             [JsonPropertyName("totalResults")]
             [JsonConverter(typeof(StringToDecimalConverter))]

@@ -10,6 +10,6 @@ namespace Searchfight.Infrastructure.Services.Search.Utils
             => decimal.Parse(reader.GetString());
 
         public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options) 
-            => value.ToString();
+            => writer.WriteStringValue(value.ToString());
     }
 }
